@@ -16,7 +16,7 @@ import { GetUsersDto } from './dto/get-users.dto';
  * Sử dụng Mongoose để tương tác với MongoDB
  */
 @Injectable()
-export class UsersService {
+export class AddressService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   /**
@@ -134,3 +134,4 @@ export class UsersService {
     }
   }
 }
+
