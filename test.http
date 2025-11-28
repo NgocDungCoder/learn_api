@@ -1,0 +1,101 @@
+### Users API Test Requests
+### Sử dụng extension REST Client trong VS Code để chạy các requests này
+
+@baseUrl = http://localhost:3000
+@contentType = application/json
+
+### 1. Tạo user mới
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "name": "Nguyễn Văn A",
+  "email": "nguyenvana@example.com",
+  "age": 25
+}
+
+### 2. Tạo user thứ 2
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "name": "Trần Thị B",
+  "email": "tranthib@example.com",
+  "age": 30
+}
+
+### 3. Lấy danh sách tất cả users
+GET {{baseUrl}}/users
+
+### 4. Lấy danh sách users với pagination
+GET {{baseUrl}}/users?page=1&limit=10
+
+### 5. Tìm kiếm users theo tên
+GET {{baseUrl}}/users?search=Nguyễn
+
+### 6. Lấy user theo ID (thay {id} bằng ID thực tế từ response tạo user)
+GET {{baseUrl}}/users/{id}
+
+### 7. Cập nhật user (thay {id} bằng ID thực tế)
+PATCH {{baseUrl}}/users/{id}
+Content-Type: {{contentType}}
+
+{
+  "name": "Nguyễn Văn A Updated",
+  "age": 26
+}
+
+### 8. Xóa user (thay {id} bằng ID thực tế)
+DELETE {{baseUrl}}/users/{id}
+
+### ============================================
+### Test Cases cho Validation Errors
+### ============================================
+
+### 9. Test: Tạo user thiếu email (sẽ lỗi 400)
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "name": "User Without Email"
+}
+
+### 10. Test: Tạo user với email không hợp lệ (sẽ lỗi 400)
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "name": "User Invalid Email",
+  "email": "invalid-email-format"
+}
+
+### 11. Test: Tạo user với email trùng (sẽ lỗi 409)
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "name": "Duplicate Email User",
+  "email": "nguyenvana@example.com"
+}
+
+### 12. Test: Tạo user với age không hợp lệ (sẽ lỗi 400)
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "name": "User Invalid Age",
+  "email": "invalidage@example.com",
+  "age": 150
+}
+
+### 13. Test: Lấy user không tồn tại (sẽ lỗi 404)
+GET {{baseUrl}}/users/non-existent-id-12345
+
+### 14. Test: Cập nhật user không tồn tại (sẽ lỗi 404)
+PATCH {{baseUrl}}/users/non-existent-id-12345
+Content-Type: {{contentType}}
+
+{
+  "name": "Updated Name"
+}
+
